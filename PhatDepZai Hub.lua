@@ -11,7 +11,7 @@ local Notify = RimusLib:MakeNotify({
 
 local RimusHub = RimusLib:MakeGui({
     NameHub = "PhatDepZai Hub",
-    NameGam = "     [Chat]",
+    NameGam = "     [version : v1]",
     Icon = "rbxassetid://100756646036568"
 })
 
@@ -199,16 +199,23 @@ TabFarming:AddButton({
     end
 })
 
--- Auto Troll (Sục Cu Thần Bí)
+-- Chức năng Auto Sục Cu Thần Bí
 TabFarming:AddButton({
-    Title = "Auto sục cu thần bí",
-    Content = "Troll sục cu thần bí",
+    Title = "Auto Sục Cu Thần Bí",
+    Content = "Nhấn để kích hoạt",
     Icon = "rbxassetid://100756646036568",
     Callback = function()
-        print("Đang troll thần bí...")
-        -- Code troll thần bí
+        local Notify = RimusLib:MakeNotify({
+            Title = "Thông Báo",
+            Content = "Ôi! Bạn là Jack 5 triệu",
+            Image = "rbxassetid://100756646036568",
+            Time = 2, -- Thời gian hiển thị (giây)
+            Delay = 5 -- Khoảng thời gian giữa các lần hiển thị thông báo
+        })
+        Notify:Send()
     end
 })
+
 
 -- Auto Get SGT
 TabFarming:AddButton({
@@ -232,5 +239,46 @@ TabFarming:AddDropdown({
         attackSpeed = Value
         print("Tốc độ đánh được chọn: " .. attackSpeed)
         -- Code tùy chỉnh tốc độ đánh
+    end
+})
+-- Đây là tab Misc được bổ sung
+local TabMisc = RimusHub:CreateTab({
+    Name = "Tab Misc",
+    Icon = "rbxassetid://100756646036568"
+})
+
+-- Hàm kiểm tra trạng thái Mirage
+local function CheckMirage()
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v:IsA("Model") and v.Name == "Mirage" then -- Giả sử tên object là "Mirage"
+            return true
+        end
+    end
+    return false
+end
+
+-- Hàm kiểm tra trạng thái Kitsune Island
+local function CheckKitsuneIsland()
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v:IsA("Model") and v.Name == "KitsuneIsland" then -- Giả sử tên object là "KitsuneIsland"
+            return true
+        end
+    end
+    return false
+end
+
+-- Thêm trạng thái Mirage
+TabMisc:AddLabel({
+    Title = "Trạng Thái Mirage",
+    Content = function()
+        return CheckMirage() and "🟢 Có" or "🔴 Không"
+    end
+})
+
+-- Thêm trạng thái Kitsune Island
+TabMisc:AddLabel({
+    Title = "Trạng Thái Kitsune Island",
+    Content = function()
+        return CheckKitsuneIsland() and "🟢 Có" or "🔴 Không"
     end
 })
