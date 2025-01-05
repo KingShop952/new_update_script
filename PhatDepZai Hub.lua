@@ -282,3 +282,77 @@ TabMisc:AddLabel({
         return CheckKitsuneIsland() and "🟢 Có" or "🔴 Không"
     end
 })
+
+-- Thêm Nút Tàng Hình
+TabMisc:AddButton({
+    Title = "Tàng Hình",
+    Content = "Nhấn để tàng hình",
+    Icon = "rbxassetid://100756646036568",
+    Callback = function()
+        local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+        if character then
+            -- Tắt hiển thị của các phần thân nhân vật
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") or part:IsA("Decal") or part:IsA("Texture") then
+                    part.Transparency = 1 -- Làm trong suốt
+                elseif part:IsA("ParticleEmitter") or part:IsA("Trail") or part:IsA("Beam") then
+                    part.Enabled = false -- Tắt hiệu ứng
+                end
+            end
+
+            -- Vô hiệu hóa phụ kiện
+            for _, accessory in pairs(character:GetChildren()) do
+                if accessory:IsA("Accessory") and accessory:FindFirstChild("Handle") then
+                    accessory.Handle.Transparency = 1 -- Làm trong suốt phụ kiện
+                end
+            end
+
+            -- Vô hiệu hóa Shadow (nếu có)
+            if character:FindFirstChild("HumanoidRootPart") then
+                character.HumanoidRootPart.CastShadow = false
+            end
+
+            print("Nhân vật đã được tàng hình.")
+        else
+            print("Không tìm thấy nhân vật.")
+        end
+    end
+})
+
+-- Thêm Nút Hiện Lại
+TabMisc:AddButton({
+    Title = "Hiện Lại",
+    Content = "Nhấn để hiện lại nhân vật",
+    Icon = "rbxassetid://100756646036568",
+    Callback = function()
+        local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+        if character then
+            -- Khôi phục hiển thị của các phần thân nhân vật
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") or part:IsA("Decal") or part:IsA("Texture") then
+                    part.Transparency = 0 -- Khôi phục trong suốt
+                elseif part:IsA("ParticleEmitter") or part:IsA("Trail") or part:IsA("Beam") then
+                    part.Enabled = true -- Bật lại hiệu ứng
+                end
+            end
+
+            -- Khôi phục hiển thị của phụ kiện
+            for _, accessory in pairs(character:GetChildren()) do
+                if accessory:IsA("Accessory") and accessory:FindFirstChild("Handle") then
+                    accessory.Handle.Transparency = 0 -- Khôi phục phụ kiện
+                end
+            end
+
+            -- Bật lại Shadow (nếu có)
+            if character:FindFirstChild("HumanoidRootPart") then
+                character.HumanoidRootPart.CastShadow = true
+            end
+
+            print("Nhân vật đã hiện lại.")
+        else
+            print("Không tìm thấy nhân vật.")
+        end
+    end
+})
